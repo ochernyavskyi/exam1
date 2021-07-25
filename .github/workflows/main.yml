@@ -9,12 +9,22 @@ env:
     AWS-Region-Name: "eu-central-1"
 
 # Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
+on: 
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+      branches:
+        - main
+        
+  pull_request: 
+      branches:
+        - main
+   
+  
+  #    branches: [main]
+  # Triggers the workflow on push or pull request events but only for the main branch
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   #workflow_dispatch:
@@ -28,7 +38,17 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Git clone our repo
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+        
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Create Zip deployment package
         run: zip -r ${{ env.DeployPackageName}} ./ -x *.git*
