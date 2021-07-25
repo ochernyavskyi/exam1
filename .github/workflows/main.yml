@@ -4,7 +4,7 @@ name: CI-CD-Pipeline-To-AWS
 env:
     S3_Bucket_name : "my-test-bucket-odessa"
     Application_Name: "MyFlask"
-    Env: "Myflask-env1-"
+    Env: "Myflask-env-1"
     DeployPackageName: "flask_app_${{ github.sha }}.zip"
     AWS-Region-Name: "eu-central-1"
 
