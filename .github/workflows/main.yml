@@ -60,8 +60,9 @@ jobs:
           
       - name: Create new elastic application
         run : |
-          aws elasticbeanstalk create-application-version --application-name ${{ env.Application_Name }} \
-          --source-bundle S3Bucket="${{ env.S3_Bucket_name }},S3Key="${{ env.DeployPackageName }}" \
+          aws elasticbeanstalk create-application-version \
+          --application-name ${{ env.Application_Name }} \
+          --source-bundle S3Bucket="${{ env.S3_Bucket_name }}",S3Key="${{ env.DeployPackageName }}" \
           --version-label "Ver-${{ github.sha }}" \
           --description "CommitSHA-${{ github.sha }}"
           
