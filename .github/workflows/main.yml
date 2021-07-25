@@ -28,16 +28,20 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Git clone our repo
-        uses: actions/checkout@v2   
-
+        uses: actions/checkout@v1
+        
       - name: Create Zip deployment package
         run: zip -r ${{ env.DeployPackageName}} ./ -x *.gitignore
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      #- name: Run a multi-line script
-       # run: |
-        #  echo Add other actions to build,
-         # echo test, and deploy your project.
+            
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.MY_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.MY_AWS_SECRET_KEY }}
+          aws-region: ${{ env.AWS-Region-Name }}
+          
+      - name: Copy deployment package to S3
+        run : aws s3 cp ${{ env.DeployPackageName}} s3://${{ env.S3_Bucket_name }}/
+        
+      - name: Print happy message for CI
+        run :  echo "CI part finished succesfully"
