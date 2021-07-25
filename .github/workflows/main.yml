@@ -1,7 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 
 name: CI-CD-Pipeline-To-AWS
-  env:
+env:
     S3_Bucket_name : "my-test-bucket-odessa"
     Application_Name: "MyFlask"
     Env: "Myflask-env"
@@ -33,11 +33,11 @@ jobs:
       - name: Create Zip deployment package
         run: zip -r ${{ env.DeployPackageName}} ./ -x *.gitignore
       # Runs a single command using the runners shell
-      #- name: Run a one-line script
-       # run: echo Hello, world!
+      - name: Run a one-line script
+        run: echo Hello, world!
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      #- name: Run a multi-line script
+       # run: |
+        #  echo Add other actions to build,
+         # echo test, and deploy your project.
